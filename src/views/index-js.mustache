@@ -3685,6 +3685,33 @@ function getPokemonMarkerIcon (pokemon, ts) {
             : ''
         ) + `"/>${iconHtml}</center>`
     });
+    if (iv >= glowIV) {
+        let notification = toastr.info('Notification text goes here you know', 'Notification title', {
+            closeButton: true,
+            positionClass: 'toast-top-right',
+            preventDuplicates: true,
+            onclick: function () {
+                centerMap(pokemon.lat, pokemon.lon, 20)
+            },
+            showDuration: '300',
+            hideDuration: '500',
+            timeOut: '6000',
+            extendedTimeOut: '1500',
+            showEasing: 'swing',
+            hideEasing: 'linear',
+            showMethod: 'fadeIn',
+            hideMethod: 'fadeOut'
+        });
+        /*
+        notification.removeClass('toast-info');
+        notification.css({
+            'padding-left': '74px',
+            'background-image': `url('${icon}')`,
+            'background-size': '48px',
+            'background-color': '#0c5952'
+        });
+        */
+    }
     return icon;
 }
 
