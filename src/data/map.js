@@ -1017,6 +1017,7 @@ const getNests = async (minLat, maxLat, minLon, maxLon, nestFilterExclude = null
     const minLonReal = minLon - 0.01;
     const maxLonReal = maxLon + 0.01;
     const excludedPokemon = [];
+    let averageCountFilter = 0;
 
     if (nestFilterExclude) {
         for (let i = 0; i < nestFilterExclude.length; i++) {
@@ -1024,6 +1025,8 @@ const getNests = async (minLat, maxLat, minLon, maxLon, nestFilterExclude = null
             if (filter.includes('p')) {
                 const id = parseInt(filter.replace('p', ''));
                 excludedPokemon.push(id);
+            } else if (filter.includes('avg')) {
+                averageCountFilter = filter.replace('avg', '');
             }
         }
     }
@@ -1043,12 +1046,20 @@ const getNests = async (minLat, maxLat, minLon, maxLon, nestFilterExclude = null
         excludePokemonSQL = sqlExcludeCreate;
     }
 
+    let args = [minLatReal, maxLatReal, minLonReal, maxLonReal];
+
+    let excludeAverageSQL;
+    if (averageCountFilter >= 0) {
+        // Minimum average count
+        excludeAverageSQL = ' AND pokemon_avg >= ?';
+        args.push(averageCountFilter);
+    }
+
     const sql = `
     SELECT nest_id, lat, lon, name, pokemon_id, pokemon_count, pokemon_avg, updated
     FROM nests
-    WHERE lat >= ? AND lat <= ? AND lon >= ? AND lon <= ? ${excludePokemonSQL}
+    WHERE lat >= ? AND lat <= ? AND lon >= ? AND lon <= ? ${excludePokemonSQL} ${excludeAverageSQL}
     `;
-    let args = [minLatReal, maxLatReal, minLonReal, maxLonReal];
     for (let i = 0; i < excludedPokemon.length; i++) {
         args.push(excludedPokemon[i]);
     }
@@ -1132,7 +1143,7 @@ const getSearchData = async (lat, lon, id, value) => {
             }
             sql = `
             SELECT id, name, lat, lon, url, quest_type, quest_pokemon_id, quest_item_id, quest_reward_type,
-                json_extract(json_extract('quest_rewards','$[*].info.form_id'),'$[0]') AS quest_pokemon_form_id,
+                JSON_VALUE(quest_rewards, '$[0].info.form_id') AS quest_pokemon_form_id
                 ROUND(( 3959 * acos( cos( radians(?) ) * cos( radians( lat ) ) * cos( radians( lon ) - radians(?) ) + sin( radians(?) ) * sin( radians( lat ) ) ) ),2) AS distance
             FROM pokestop
             WHERE ${conditions.join(' OR ') || 'FALSE'}

@@ -489,19 +489,21 @@ const getData = async (perms, filter) => {
             'type': pokestopOptionsString
         });
 
-        for (let i = 1; i <= 4; i++) {
-            const pokestopLure = i18n.__('filter_pokestop_lure_' + i);
-            pokestopData.push({
-                'id': {
-                    'formatted': utils.zeroPad(i, 3),
-                    'sort': i
-                },
-                'name': pokestopLure,
-                'image': `<img class="lazy_load" data-src="${iconStylePath}/pokestop/${i}.png" style="height:50px; width:50px;">`,
-                'filter': generateShowHideButtons(i, 'pokestop-lure'),
-                'size': generateSizeButtons(i, 'pokestop-lure'),
-                'type': pokestopOptionsString
-            });
+        if (permShowLures) {
+            for (let i = 1; i <= 4; i++) {
+                const pokestopLure = i18n.__('filter_pokestop_lure_' + i);
+                pokestopData.push({
+                    'id': {
+                        'formatted': utils.zeroPad(i, 3),
+                        'sort': i
+                    },
+                    'name': pokestopLure,
+                    'image': `<img class="lazy_load" data-src="${iconStylePath}/pokestop/${i}.png" style="height:50px; width:50px;">`,
+                    'filter': generateShowHideButtons(i, 'pokestop-lure'),
+                    'size': generateSizeButtons(i, 'pokestop-lure'),
+                    'type': pokestopOptionsString
+                });
+            }
         }
         data['pokestop_filters'] = pokestopData;
     }
@@ -575,7 +577,36 @@ const getData = async (perms, filter) => {
 
     if (permViewMap && showNestFilter) {
         const pokemonString = i18n.__('filter_pokemon');
+        const onString = i18n.__('filter_on');
+        const offString = i18n.__('filter_off');
+        const globalAverageString = i18n.__('filter_global_avg');
+        const globalFiltersString = i18n.__('filter_global_filters');
+        const configureString = i18n.__('filter_configure');
+
         let nestData = [];
+        const filter = `
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-sm btn-off select-button-new" data-id="avg" data-type="nest-avg" data-info="off">
+                <input type="radio" name="options" id="hide" autocomplete="off">${offString}
+            </label>
+            <label class="btn btn-sm btn-on select-button-new" data-id="avg" data-type="nest-avg" data-info="on">
+                <input type="radio" name="options" id="show" autocomplete="off">${onString}
+            </label>
+        </div>
+        `;
+        const size = `<button class="btn btn-sm btn-primary configure-button-new" data-id="avg" data-type="nest-avg" data-info="global-avg">${configureString}</button>`;
+        nestData.push({
+            'id': {
+                'formatted': utils.zeroPad(0, 3),
+                'sort': 0
+            },
+            'name': globalAverageString,
+            'image': `AVG`,
+            'filter': filter,
+            'size': size,
+            'type': globalFiltersString
+        });
+
         //Pokemon
         let pokemon = await map.getAvailableNestPokemon();
         for (let i = 0; i < pokemon.length; i++) {
