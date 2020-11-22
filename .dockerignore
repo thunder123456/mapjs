@@ -1,0 +1,8 @@
+.github/
+docs/
+node_modules/
+
+.eslintrc.js
+.readthedocs.yml
+mkdocs.yml
+README.md
