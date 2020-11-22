@@ -16,10 +16,12 @@ RUN npm install
 COPY [ "src/", "./src/" ]
 COPY [ "static/", "./static/" ]
 
+# Run update script
+RUN npm run update
+
 # Expose volumes
 VOLUME /app/src/configs/config.json
 VOLUME /app/static/custom/
-VOLUME /app/static/locales/
 
 # Entrypoint
 CMD npm start
