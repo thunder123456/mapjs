@@ -2634,7 +2634,11 @@ const getIconSize = (type, id, form, weight) => {
             : id === 129 && pokemonFilter["big_karp"].show && weight >= 13.125 ? "big_karp"
                 : filterId
     }
-    return iconSizes[type][filterType[filterId].size]
+    if (iconSizes[type][filterType[filterId]]) {
+        return iconSizes[type][filterType[filterId].size]
+    } else {
+        return iconSizes[type].normal
+    }
 }
 // MARK: - Local Storage
 
@@ -3279,12 +3283,7 @@ function getGymPopupContent (gym) {
         let hasRaidBoss = gym.raid_pokemon_id !== 0 && gym.raid_pokemon_id !== null;
         let pokemonName;
         if (hasRaidBoss) {
-            if (gym.raid_pokemon_form !== 0 && gym.raid_pokemon_form !== null) {
-                pokemonName = getFormName(gym.raid_pokemon_form) + ' ' + getPokemonName(gym.raid_pokemon_id);
-            } else {
-                pokemonName = getPokemonName(gym.raid_pokemon_id);
-            }
-            pokemonName += ' ' + getGenderIcon(gym.raid_pokemon_gender);
+            pokemonName = getPokemonName(gym.raid_pokemon_id) + ' ' + getGenderIcon(gym.raid_pokemon_gender);
         } else if (isRaidBattle) {
             pokemonName = 'Unknown Raid Boss';
         } else {
