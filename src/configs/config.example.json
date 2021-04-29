@@ -4,6 +4,7 @@
     "title": "MapJS",
     "headerTitle": "MapJS - NodeJS Map Replacement",
     "locale": "en",
+    "dateTimeLocale": "en-US",
     "style": "dark",
     "sessionSecret": "98ki^e72~!@#(85o3kXLI*#c9wu5l!Z",
     "homepage": {
@@ -61,6 +62,16 @@
         "allowedGuilds": [],
         "blockedGuilds": [],
         "allowedUsers": [],
+        "areaRestrictions": {
+            "role1": {
+                "roles": [],
+                "areas": []
+            },
+            "role2": {
+                "roles": [],
+                "areas": []
+            }
+        },
         "perms": {
             "map": {
                 "enabled": true,
