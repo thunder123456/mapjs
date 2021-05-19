@@ -10,14 +10,14 @@ WORKDIR /app
 COPY [ "package.json", "package-lock.json", "./" ]
 
 # Install dependencies
-RUN npm install -g npm@7.13.0
+RUN npm install 
 
 # Copy source code
 COPY [ "src/", "./src/" ]
 COPY [ "static/", "./static/" ]
 
 # Run update script
-RUN npm run update
+#RUN npm run update
 
 # Expose volumes
 VOLUME /app/src/configs/config.json
