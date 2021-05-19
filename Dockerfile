@@ -4,7 +4,7 @@ FROM node:${NODEJS_VERSION}
 WORKDIR /app
 
 # Copy base required files
-COPY [ "LICENSE", "./" ]
+#COPY [ "LICENSE", "./" ]
 
 # Copy dependency files
 COPY [ "package.json", "package-lock.json", "./" ]
