@@ -17,7 +17,7 @@ COPY [ "src/", "./src/" ]
 COPY [ "static/", "./static/" ]
 
 # Run update script
-#RUN npm run update
+RUN npm run update
 
 # Expose volumes
 VOLUME /app/src/configs/config.json
