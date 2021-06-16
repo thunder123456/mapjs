@@ -13,8 +13,6 @@ jobs:
       packages: write
       contents: read
     steps:
-      - name: Enviornment vars
-        run: echo ::set-env name=IMAGE_REPOSITORY::$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')
       - name: Check out the repo
         uses: actions/checkout@v2
       - name: Log in to GitHub Docker Registry
