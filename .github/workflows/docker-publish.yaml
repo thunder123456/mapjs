@@ -29,5 +29,5 @@ jobs:
         with:
           push: true
           tags: |
-            docker.pkg.github.com/${{github.IMAGE_REPOSITORY}}/octo-image:${{ github.sha }}
-            docker.pkg.github.com/${{github.IMAGE_REPOSITORY}}/octo-image:${{ github.ref }}
+            docker.pkg.github.com/${IMAGE_REPOSITORY}/octo-image:${{ github.sha }}
+            docker.pkg.github.com/${IMAGE_REPOSITORY}/octo-image:${{ github.ref }}
