@@ -14,8 +14,8 @@ jobs:
       name: Check out code
     - uses: mr-smithers-excellent/docker-build-push@v5
       with:
-        image: thunder123456/mapjs
-        registry: ghcr.io/thunder123456/mapjs
+        image: mapjs
+        registry: ghcr.io/thunder123456
         username: ${{ github.actor }}
         password: ${{ secrets.TOKEN }}
   
