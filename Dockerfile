@@ -25,3 +25,4 @@ VOLUME /app/static/custom/
 
 # Entrypoint
 CMD npm start
+
